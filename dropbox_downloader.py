@@ -20,9 +20,9 @@ def getMore(data, session):
     try:
         has_more = re.search(
             r'\\"has_more_entries\\":\s*(.*?),', data).group(1).lower() == 'true'
+        next_voucher = re.search(r'\\"next_request_voucher\\":\s*\\"(.*?)\\"}"',
+                                 data).group(1).replace('\\\\\\"', '"').replace('\\\\\\\\"', '\\"')
         while has_more:
-            next_voucher = re.search(r'\\"next_request_voucher\\":\s*\\"(.*?)\\"}"', data).group(
-                1).replace('\\\\\\"', '"').replace('\\\\\\\\"', '\\"')
             json.loads(next_voucher)
             link_key = re.search(r'"linkKey":\s*"(.*?)",', data).group(1)
             link_type = re.search(r'"linkType":\s*"(.*?)",', data).group(1)
@@ -34,6 +34,7 @@ def getMore(data, session):
 
             next_data = json.loads(next_data.text)
             has_more = next_data.get('has_more_entries')
+            next_voucher = next_data.get('next_request_voucher')
             next_data = next_data.get('entries')
             more_data.extend(next_data)
         return more_data
