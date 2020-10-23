@@ -3,4 +3,6 @@
   * **ffmpeg**(if you wanna download videos too, need to put it into **PATH** variable or next to script)
 
 ## Usage:
-First, `pip install -r requirements.txt`, then just run the script and insert dropbox link. Also, you can just make a list with direct links, if you want to.
+ * Download this repo as zip. Unzip.
+ * Run `pip install -r requirements.txt` in the script directory
+ * Just run the script and insert dropbox link. Also, you can just make a list with direct links, if you want to.
