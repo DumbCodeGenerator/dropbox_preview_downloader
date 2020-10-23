@@ -5,4 +5,4 @@
 ## Usage:
  * Download this repo as zip. Unzip.
  * Run `pip install -r requirements.txt` in the script directory
- * Just run the script and insert dropbox link. Also, you can just make a list with direct links, if you want to.
+ * Just run the script and insert dropbox link. Also, you can just make a list with direct links to the files, if you want to
