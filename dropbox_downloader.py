@@ -20,8 +20,8 @@ def getMore(data, session):
     try:
         has_more = re.search(
             r'\\"has_more_entries\\":\s*(.*?),', data).group(1).lower() == 'true'
-        next_voucher = re.search(r'\\"next_request_voucher\\":\s*\\"(.*?)\\"}"',
-                                 data).group(1).replace('\\\\\\"', '"').replace('\\\\\\\\"', '\\"')
+        next_voucher = re.search(r'\\"next_request_voucher\\":\s*\\"(.*?"})',
+                                 data).group(1).replace('\\\\', '\\').replace('\\\\', '\\').replace('\\"', '"')
         while has_more:
             json.loads(next_voucher)
             link_key = re.search(r'"linkKey":\s*"(.*?)",', data).group(1)
@@ -63,14 +63,14 @@ def main():
     more_data = getMore(data, session)
 
     folder_name = re.search(
-        r'"displayName":\s*"(.*?)",\s*"ownerName":', data).group(1)
+        r'{"displayName":\s*"(.*?)",', data).group(1)
     folder_name = string.capwords(
         bytes(folder_name, 'ascii').decode('unicode-escape'))
     title = folder_name
 
     try:
-        data = re.search(r'\\"entries\\":\s(.*?),\s\\"has_more_entries\\"',
-                         data).group(1).replace('\\"', '"')
+        data = re.search(r'(?<=\\"entries\\":\s)\[{\\"bytes\\":.*\\"is_symlink\\": .*?}]',
+                         data).group(0).replace('\\"', '"')
         data = json.loads(data)
     except Exception:
         data = re.search(r'"file":\s*(.*?), "fileViewerProps"', data).group(1)
